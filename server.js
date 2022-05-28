@@ -7,7 +7,6 @@ const port = process.env.PORT || 3000;
 
 hbs.registerPartials(__dirname + '/views/partials')
 app.set('view engine', 'hbs');
-app.use(express.static(__dirname + '/public'))
 
 app.use((req, res, next) => {
     const allLogs = [];
@@ -28,12 +27,14 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use((req, res, next) => {
-    res.render('maintenance.hbs',{
-        pageTitle: "We'll be right back!",
-        welcomeMessage: "Sorry the site is undergoing it's system maintenance"
-    })
-})
+// app.use((req,res,next) => {
+//     res.render('maintenance.hbs',{
+//         pageTitle: "We'll be right back!",
+//         welcomeMessage: "Sorry the site is undergoing it's system maintenance"
+//     })
+// })
+
+app.use(express.static(__dirname + '/public'))
 
 hbs.registerHelper('getcurrentYear', () => {
     return new Date().getFullYear(); 
@@ -52,9 +53,16 @@ app.get('/', (req, res) => {
 app.get('/about', (req, res) => {
     res.render('about.hbs',{
         pageTitle: 'About Page',
+        welcomeMessage: 'Welcome to the about page'
     })
 })
 
+app.get('/portfolio', (req, res) => {
+    res.render('portfolio.hbs',{
+        pageTitle: 'Portfolio Page',
+        welcomeMessage: 'Welcome to the portfolio page'
+    })
+})
 app.get('/bad', (req, res) => {
     res.send({
         errorMessage: 'Unable to do something something'
